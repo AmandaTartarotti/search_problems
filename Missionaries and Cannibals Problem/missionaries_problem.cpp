@@ -20,20 +20,19 @@
 ########################################## */
 
 #include <iostream>
-#include "two_buckets_bfs.cpp"
-#include "two_buckets_dfs.cpp"
+#include "boat_trips.cpp"
+#include "missionaries_cannibals_bfs.cpp"
+#include "missionaries_cannibals_dfs.cpp"
 
 using namespace std;
 
 int main(){
 
-    int goal, strategy, deep, steps, acc_node = 0; 
-    int iteractions = 1;
+    int missionaries = 3; int cannibals = 3;
+    int acc_node = 0;
+    int steps, strategy, iteractions,deep;
 
-    cout << "##### Welcome to the Two Buckets Problem! ######" << endl;
-
-    cout << "Qual a quantidade de litros que você quer no balde? (Obs. capacidade max é 4L)" << endl;
-    cin >> goal;
+    cout << "##### Welcome to the Missionaries and Cannibals Problem! ######" << endl;
 
     cout << "Qual algoritmo você gostaria de usar?" << endl;
     cout << "[1] Breadth-first search" << endl;
@@ -43,20 +42,20 @@ int main(){
 
     switch(strategy){
         case 1:
-            steps = bucket_problem_bfs(4,3,goal,acc_node);
+            steps = missionaries_cannibals_bfs(missionaries, cannibals, acc_node);
             break;
         case 2:
             cout << "Qual a profundidade máxima da pesquisa?" << endl;
             cin >> deep;
 
-            steps = bucket_problem_dfs(4,3,goal,deep,acc_node);
+            steps = missionaries_cannibals_dfs(missionaries, cannibals, deep, acc_node);
             break;
         case 3:
             steps = -2;
 
             while (steps < -1){
                 acc_node = 0;
-                steps = bucket_problem_dfs(4,3,goal,iteractions,acc_node);
+                steps = missionaries_cannibals_dfs(missionaries, cannibals,iteractions, acc_node);
                 iteractions++;
             }
             break;
@@ -67,7 +66,8 @@ int main(){
     if(steps > -1) cout << "São necessários " << steps << " iterações para atingir o objetivo." << endl <<
     "A árvore final tem " << acc_node << " nós." << endl;
     else if (steps == -1) cout << "Oh, que pena! Não há soluções possíveis :(" << endl;
-    else cout << "O limite de profundidade foi alcançado e nenhuma solução foi encontrada.. " << endl;
+    else if (steps == -2) cout << "O limite de profundidade foi alcançado e nenhuma solução foi encontrada.. " << endl;
+    else cout << "Erro inesperado." << endl;
 
     return 0;
 }
